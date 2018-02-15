@@ -58,7 +58,26 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  document.addEventListener("DOMContentLoaded", (event) => {
+    document.addEventListener('keydown', (evt) => {
+      let keyPressed = document.querySelectorAll(`[data-key='${evt.keyCode}']`)[0]; // Targets the element which coresponds to the key pressed
+      let audioPressed = document.querySelectorAll(`audio[data-key='${evt.keyCode}']`)[0]; // Targets the audio element which coresponds to the key pressed
 
+      if (!audioPressed) return; // Escape when key isn't on menu
+
+      keyPressed.classList.add('playing'); // Update CSS to show "playing" styles
+      audioPressed.currentTime = 0; // Reset sounds if already playing
+      audioPressed.play(); // Play sounds
+    });
+
+    document.addEventListener('keyup', (evt) => {
+      let keyPressed = document.querySelectorAll(`[data-key='${evt.keyCode}']`)[0]; // Targets the element which coresponds to the key pressed
+
+      if (!keyPressed) return;// Escape when key isn't on menu
+
+      keyPressed.classList.remove('playing'); // Update CSS to remove "playing" styles
+    });
+  });
 </script>
 
 
