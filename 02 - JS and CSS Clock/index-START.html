@@ -62,13 +62,75 @@
       background:black;
       position: absolute;
       top:50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.2s;
+      transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
     }
 
   </style>
 
   <script>
+    degUpdate = (deg, unit) => {
+      if (unit === "hour") {
+        if (deg >= 450) {
+          deg = 90;
+        }
+        deg += 30;
+      } else {
+        if (deg >=450) {
+          deg = 90;
+        }
+        deg += 6;
+      }
+      console.log(`
+      deg = ${deg}
+      unit = ${unit}
+      `)
+      return deg;
+    }
+    rotateSec = () => {
+      console.log("rotateSec Called")
+      let secHand = document.querySelector(".second-hand");
+      let str = secHand.style.transform;
+      let rotation = parseInt(str.substring(str.lastIndexOf("(")+1,str.lastIndexOf("d")));
+      if (isNaN(rotation)) {
+        rotation =  90;
+      }
+      rotation = degUpdate(rotation, "sec");
+      if (rotation >= 450){
+        
+      }
+      console.log(`rotateSec - degUpdate returned ${rotation}`)
+      secHand.style.transform = `rotate(${rotation}deg)`;
+    }
+    rotateMin = () => {
+      let minHand = document.querySelector(".min-hand");
+      let str = minHand.style.transform;
+      let rotation = parseInt(str.substring(str.lastIndexOf("(")+1,str.lastIndexOf("d")));
+      if (isNaN(rotation)) {
+        rotation =  90;
+      }
+      rotation = degUpdate(rotation, "min");
+      minHand.style.transform = `rotate(${rotation}deg)`;
+    }
+    rotateHour = () => {
+      console.log(`called rotateHour`)
+      let hourHand = document.querySelector(".hour-hand");
+      let str = hourHand.style.transform;
+      let rotation = parseInt(str.substring(str.lastIndexOf("(")+1,str.lastIndexOf("d")));
+      console.log(`hour rotation - ${rotation}`);
+      if (isNaN(rotation)) {
+        rotation =  90;
+      }
+      rotation = degUpdate(rotation, "hour");
+      console.log(`hour rotation after update - ${rotation}`);
+      hourHand.style.transform = `rotate(${rotation}deg)`;
+    }
 
-
+    setInterval(rotateSec, 1000);
+    setInterval(rotateMin, 60 * 1000);
+    setInterval(rotateHour, 60 * 60 * 1000);
   </script>
 </body>
 </html>
